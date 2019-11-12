@@ -11,6 +11,7 @@ public class InstaframPost {
     private String tags;
     private ArrayList<String> postContent;
     private boolean filled;
+    private long likes;
     //private ArrayList<ImageView> storedImages;
 
 
@@ -21,7 +22,11 @@ public class InstaframPost {
         this.tags = tags;
         this.filled = false;
         this.postContent = new ArrayList<String>();
+        this.likes = 0;
     }
+
+    public long getLikes(){return this.likes;}
+    public void setLikes(long likes){this.likes = likes;}
 
     //нужно чтобы морфия работала
     public InstaframPost(){
@@ -29,6 +34,7 @@ public class InstaframPost {
     }
 
     public String getBlogName() {return this.blogName;}
+
 
     public String getDate(){
         return date;

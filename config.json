@@ -1,15 +1,16 @@
 {
+
   "instagramBlogList":[
 
-  {"name":"explore/tags/video"},
-  {"name":"explore/tags/catvideo"},
-  {"name":"explore/tags/cat"},
-  {"name":"explore/tags/dog"},
-  {"name":"explore/tags/dogvideo"},
-  {"name":"explore/tags/naturevideo"}
-],
+    {"name":"explore/tags/video"},
+    {"name":"explore/tags/catvideo"},
+    {"name":"explore/tags/cat"},
+    {"name":"explore/tags/dog"},
+    {"name":"explore/tags/dogvideo"},
+    {"name":"explore/tags/naturevideo"}
+  ],
 
-  "instagramBlogList2":[
+"instagramBlogList2":[
 
   {"name":"maria__schmidt"},
   {"name":"patriciablackpeony"},
@@ -52,9 +53,8 @@
 
 ],
 
-  "DBConnectionString":"jdbc:sqlite:E:/myfin.db",
-  "saveDir": "e:\\",
-  "tempDir":""
-
+  "DBConnectionString":"jdbc:sqlite:C:/dd.db",
+  "DBConnectionString2":"jdbc:mariadb://172.22.33.7:3306/db?user=root&password=password",
+  "save_dir":""
 
 }

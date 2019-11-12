@@ -38,7 +38,7 @@ public class InstagramPageLoad {
         options.addArguments("--disable-default-apps");
         options.addArguments("test-type=browser");*/
 
-        System.setProperty("webdriver.chrome.driver", "D://chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         this.driver = new ChromeDriver(options);
     }
 
@@ -51,8 +51,8 @@ public class InstagramPageLoad {
         //PseudoDBPush blogPostsCumLoad = new PseudoDBPush(new File ("config.json"));
 
         //List<WebElement> el = driver.findElements(By.cssSelector("img"));
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        Date date = new Date(); //HH.mm.ss
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //System.out.println("Constructor 2: " + dateFormat.format( currentDate ) );
 
         List<WebElement> el = driver.findElements(By.tagName("a"));
@@ -74,11 +74,6 @@ public class InstagramPageLoad {
         return instagramPostArray;
     }
 
-    public void destroyWebDriwer(){
-        this.driver.close();
-        this.driver.quit();
-    }
-
     public ArrayList<InstaframPost> getInstagramAllPostsArray(String instagramBlogName){
         driver.get("https://www.instagram.com/" + instagramBlogName + "/");
 
@@ -91,6 +86,8 @@ public class InstagramPageLoad {
         String sumPostIds = "";
         String previousSumPostIds = "x";
 
+
+        //for (int i = 0; i < 100; i++) {
         do{
 
             previousSumPostIds = sumPostIds;
@@ -105,14 +102,14 @@ public class InstagramPageLoad {
                 }
             }
 
-            //System.out.println("sumPostIds: "+sumPostIds);
-            //System.out.println("previousSumPostIds: "+previousSumPostIds);
+            System.out.println("sumPostIds: "+sumPostIds);
+            System.out.println("previousSumPostIds: "+previousSumPostIds);
 
-            /*if (sumPostIds.equals(previousSumPostIds)){
+            if (sumPostIds.equals(previousSumPostIds)){
                 System.out.println("!!!!!!!!! OMG ITS EQUALS !!!!!!!!!" + sumPostIds.hashCode() + " " + previousSumPostIds.hashCode());
             }else {
                 System.out.println("sumPostIds.hashCode(): " + sumPostIds.hashCode() + " previousSumPostIds.hashCode(): " + previousSumPostIds.hashCode());
-            }*/
+            }
 
 
             builder.sendKeys(Keys.PAGE_DOWN).perform();
@@ -130,5 +127,9 @@ public class InstagramPageLoad {
         return instagramPostArray;
     }
 
+    public void destroyWebDriwer(){
+        this.driver.close();
+        this.driver.quit();
+    }
 
 }

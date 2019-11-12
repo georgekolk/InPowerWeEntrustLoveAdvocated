@@ -1,30 +1,29 @@
 //import org.sqlite.JDBC;
 
-import org.sqlite.JDBC;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DbHandler {
+public class MariaDbHandler {
 
     private static String CON_STR = null;
-    private static DbHandler instance = null;
+    private static MariaDbHandler instance = null;
 
-    public static synchronized DbHandler getInstance(String connectionString) throws SQLException{
+    public static synchronized MariaDbHandler getInstance(String connectionString) throws SQLException{
         if (instance == null)
-            instance = new DbHandler(connectionString);
+            instance = new MariaDbHandler(connectionString);
         return instance;
     }
 
     private Connection connection;
 
-    private DbHandler(String connectionString) throws SQLException{
+    private MariaDbHandler(String connectionString) throws SQLException{
         //CON_STR = connectionString; Connection  connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "username", "password");
         CON_STR = connectionString; //Connection  connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "username", "password");
-        DriverManager.registerDriver(new JDBC());
+        //DriverManager.registerDriver(new JDBC());
         //Class.forName("org.mariadb.jdbc.Driver");
-        this.connection = DriverManager.getConnection(CON_STR);
+        this.connection = DriverManager.getConnection(CON_STR, "root", "password");
     }
 
     public void createTable(String tableName){
@@ -44,13 +43,13 @@ public class DbHandler {
     public boolean updatePosts(InstaframPost instaframPost){
         boolean successful = true;
             //String sql = "INSERT INTO '" + this.prepareYourAnus(instaframPost.getBlogName()) + "' ('postId', 'tags', 'filenames', 'date') VALUES('" + instaframPost.getPostId() + "', '" + this.prepareYourAnus(instaframPost.getTags()) + "', '" + instaframPost.returnFilenamesInOneString() + "', CURRENT_TIMESTAMP);";
-        String sql = "INSERT INTO '" + this.prepareYourAnus(instaframPost.getBlogName()) + "' ('postId', 'tags', 'filenames', 'date') VALUES('" + instaframPost.getPostId() + "', '" + this.prepareYourAnus(instaframPost.getTags()) + "', '" + instaframPost.returnFilenamesInOneString() + "', '" + instaframPost.getDate() +"');";
+        String sql = "INSERT INTO " + this.prepareYourAnus(instaframPost.getBlogName()) + " (postId, tags, filenames, date) VALUES('" + instaframPost.getPostId() + "', '" + this.prepareYourAnus(instaframPost.getTags()) + "', '" + instaframPost.returnFilenamesInOneString() + "', '" + instaframPost.getDate() +"');";
         //System.out.println("sql string: " + sql.toString());
 
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
         } catch (SQLException e) {
-            System.out.println("DbHandler insert Error: " + instaframPost.toString() + e.getMessage());
+            System.out.println("MariaDbHandler insert Error: " + instaframPost.toString() + e.getMessage());
             if (e.getMessage().contains("SQLITE_CONSTRAINT_UNIQUE")){
                 successful = false;
             }
@@ -64,7 +63,7 @@ public class DbHandler {
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
         } catch (SQLException e) {
-            System.out.println("DbHandler UPDATE Error: " + instaframPost.toString() + e.getMessage());
+            System.out.println("MariaDbHandler UPDATE Error: " + instaframPost.toString() + e.getMessage());
         }
 
     }

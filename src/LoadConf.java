@@ -6,13 +6,15 @@ import org.json.simple.parser.ParseException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.Executor;
+
 
 public class LoadConf {
+
 
     private String tempDir = "C://Temp";
     private ArrayList<String> instagramBlogListArray = new ArrayList<String>();
     private ArrayList<String> instagramTagsListArray = new ArrayList<String>();
-    private String saveDir = "";
 
     private String DBConnectionString = null;
 
@@ -59,11 +61,6 @@ public class LoadConf {
                     this.tempDir = (String)overallConfig.get("tempDir");
                 }
 
-                if(overallConfig.containsKey("saveDir")){
-                    this.saveDir = (String)overallConfig.get("saveDir");
-                }
-
-
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -81,11 +78,7 @@ public class LoadConf {
     public ArrayList<String> returnTagsList(){
         return instagramTagsListArray;
     }
-    public String returnDBConnectionString(){
-        return DBConnectionString;
-    }
 
-    public String returnSaveDir(){
-        return saveDir;
+    public String returnDBConnectionString(){return DBConnectionString;
     }
 }
