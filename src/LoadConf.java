@@ -11,7 +11,6 @@ public class LoadConf {
 
     private String tempDir = "C://Temp";
     private ArrayList<String> instagramBlogListArray = new ArrayList<String>();
-    private ArrayList<String> instagramTagsListArray = new ArrayList<String>();
     private String saveDir = "";
 
     private String DBConnectionString = null;
@@ -32,7 +31,7 @@ public class LoadConf {
                 JSONObject overallConfig = (JSONObject) obj;
 
 
-                if(overallConfig.containsKey("instagramBlogList")){
+                if(overallConfig.containsKey("instagramBlog666List")){
                     JSONArray instagramBlogList = (JSONArray)overallConfig.get("instagramBlogList");
 
                     for (int i = 0; i < instagramBlogList.size(); i++) {
@@ -42,12 +41,14 @@ public class LoadConf {
                     }
                 }
 
-                if(overallConfig.containsKey("instagramTagsList")){
-                    JSONArray instagramBlogList = (JSONArray)overallConfig.get("instagramTagsList");
+
+                    if(overallConfig.containsKey("instagramBlogList")){
+                    JSONArray instagramBlogList = (JSONArray)overallConfig.get("instagramBlogList");
 
                     for (int i = 0; i < instagramBlogList.size(); i++) {
                         JSONObject instagramBlogName = (JSONObject) instagramBlogList.get(i);
-                        instagramTagsListArray.add((String) instagramBlogName.get("name"));
+                        //System.out.println(instagramBlogName.get("name"));
+                        instagramBlogListArray.add((String) instagramBlogName.get("name"));
                     }
                 }
 
@@ -72,14 +73,10 @@ public class LoadConf {
             e.printStackTrace();
         }
 
-        //return destinationBoxes;
     }
 
     public ArrayList<String> returnBlogList(){
         return instagramBlogListArray;
-    }
-    public ArrayList<String> returnTagsList(){
-        return instagramTagsListArray;
     }
     public String returnDBConnectionString(){
         return DBConnectionString;

@@ -7,16 +7,8 @@ public class Main {
     private static ArrayList<InstaframPost> singleInstagramPagePosts = null;
 
     public static void main(String[] args)throws Exception {
-
-
         LoadConf config = new LoadConf(new File("config.json"));
-        //System.out.println(config.returnSaveDir());
-
-
-
-        DbHandler dbHandler = DbHandler.getInstance(config.returnDBConnectionString());
         instagramBlogList = config.returnBlogList();
-        //dbHandler.selectAll();
 
         InstagramPageLoad instagramPageLoader = InstagramPageLoad.getInstance();
 
@@ -25,34 +17,23 @@ public class Main {
             System.out.println(omgBlogFromBlogLIst + " " + singleInstagramPagePosts.size());
         }
 
-        instagramPageLoader.destroyWebDriwer();
-
+        instagramPageLoader.destroyWebDriver();
 
         for (InstaframPost item:singleInstagramPagePosts) {
             try {
                 String content = InstagramGraphQLProcessing.getPage(item.getPostId());
                 InstagramGraphQLProcessing.parseAndUpdate(item, content);
 
-                dbHandler.createTable(item.getBlogName());
-
-                boolean succees =  dbHandler.updatePosts(item);
-
-                if (item.postContent().size() > 0 && item.postContent() != null && succees) {
-                    for (Object postContentUrl : item.postContent()) {
-                        //HttpDownloadUtility.downloadFile(postContentUrl.toString(), "D:\\4cs\\" + item.getBlogName());
-                        HttpDownloadUtility.downloadFile(postContentUrl.toString(), config.returnSaveDir() + item.getBlogName());
-                        System.out.println("dbHandler.updatePosts(item): " + item.toString() + " " + succees);
+                if (item.getPostContent().size() > 0 && item.getPostContent() != null) {
+                    for (Object postContentUrl : item.getPostContent()) {
+                        HttpDownloadUtility.downloadFile(postContentUrl.toString(), config.returnSaveDir(), item);
                     }
-                }else{
-                    //System.out.println("CANT DOWNLOAD postContent empty");
                 }
 
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
-
-        //https://www.instagram.com/p/BvwY3HOBNg9/?__a=1
 
     }
 }

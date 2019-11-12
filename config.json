@@ -1,59 +1,13 @@
 {
   "instagramBlogList":[
 
-  {"name":"explore/tags/video"},
-  {"name":"explore/tags/catvideo"},
-  {"name":"explore/tags/cat"},
-  {"name":"explore/tags/dog"},
-  {"name":"explore/tags/dogvideo"},
-  {"name":"explore/tags/naturevideo"}
-],
+    {"name":"explore/tags/kiev"},
+    {"name":"explore/tags/kyiv"}
 
-  "instagramBlogList2":[
+  ],
 
-  {"name":"maria__schmidt"},
-  {"name":"patriciablackpeony"},
-  {"name":"candyxs_"},
-  {"name":"fetishmedusa"},
-  {"name":"rubbertasha"},
-  {"name":"blackrosesix"},
-  {"name":"sunny_93_latex"},
-  {"name":"stunning_shiny_latex"},
-  {"name":"nella.latex"},
-  {"name":"official.angeliarusso"},
-  {"name":"karina_nocturna"},
-  {"name":"reflectivedesire"},
-  {"name":"coronadolly1419"},
-  {"name":"purplemuffinz"},
-  {"name":"katerina_piglet_2.0"},
-  {"name":"badm3l"},
-  {"name":"ice_queen_co"},
-  {"name":"vickydevika"},
-  {"name":"rubberterra"},
-  {"name":"marilynyusuf1"},
-  {"name":"ermitas_"},
-  {"name":"sapphire.fantasy"},
-  {"name":"rubbermistressmisslucy"},
-  {"name":"xvenusprototypex"},
-  {"name":"Kigluka"},
-  {"name":"corinnesilver"},
-  {"name":"the.catharsis"},
-  {"name":"sneakersgirll"},
-  {"name":"ashley.merwin"},
-  {"name":"djtwins_official"},
-  {"name":"maria__schmidt"},
-  {"name":"matthias.wallmeier"},
-  {"name":"patriciablackpeony"},
-  {"name":"lady_denight"},
-  {"name":"baldgirl_shaza"},
-  {"name":"nikitzo.fetishphotos"}
-
-
-
-],
-
-  "DBConnectionString":"jdbc:sqlite:E:/myfin.db",
-  "saveDir": "e:\\",
+  "saveDir": "F:\\KKK\\",
+  "DBConnectionString":"jdbc:sqlite:F:/dd.db",
   "tempDir":""
 
 

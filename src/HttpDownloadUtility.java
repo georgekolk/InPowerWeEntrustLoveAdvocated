@@ -19,7 +19,7 @@ public class HttpDownloadUtility {
      * @param saveDir path of the directory to save the file
      * @throws IOException
      */
-    public static void downloadFile(String fileURL, String saveDir)
+    public static void downloadFile(String fileURL, String saveDir, InstaframPost instaframPost)
             throws IOException {
         URL url = new URL(fileURL);
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
@@ -42,7 +42,7 @@ public class HttpDownloadUtility {
             } else {
                 // extracts file name from URL
                 //fileName = "jHateTMP" + fileURL.substring(fileURL.lastIndexOf("/") + 1, fileURL.length());
-                fileName = fileURL.substring(fileURL.lastIndexOf("/") + 1, fileURL.lastIndexOf("?"));
+                fileName = instaframPost.getBlogName() + fileURL.substring(fileURL.lastIndexOf("/") + 1, fileURL.lastIndexOf("?"));
 
             }
 
