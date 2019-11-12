@@ -25,8 +25,7 @@ public class Main {
             System.out.println(omgBlogFromBlogLIst + " " + singleInstagramPagePosts.size());
         }
 
-        instagramPageLoader.destroyWebDriwer();
-
+        instagramPageLoader.destroyWebDriver();
 
         for (InstaframPost item:singleInstagramPagePosts) {
             try {
@@ -37,11 +36,13 @@ public class Main {
 
                 boolean succees =  dbHandler.updatePosts(item);
 
-                if (item.postContent().size() > 0 && item.postContent() != null && succees) {
-                    for (Object postContentUrl : item.postContent()) {
+                if (item.getPostContent().size() > 0 && item.getPostContent() != null && succees) {
+                    for (Object postContentUrl : item.getPostContent()) {
                         //HttpDownloadUtility.downloadFile(postContentUrl.toString(), "D:\\4cs\\" + item.getBlogName());
                         HttpDownloadUtility.downloadFile(postContentUrl.toString(), config.returnSaveDir() + item.getBlogName());
-                        System.out.println("dbHandler.updatePosts(item): " + item.toString() + " " + succees);
+                        //System.out.println("dbHandler.updatePosts(item): " + item.toString() + " " + succees);
+
+
                     }
                 }else{
                     //System.out.println("CANT DOWNLOAD postContent empty");

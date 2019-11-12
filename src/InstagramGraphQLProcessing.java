@@ -90,6 +90,13 @@ public class InstagramGraphQLProcessing {
                     break;
             }
 
+            if(shortCodeMedia.containsKey("owner")) {
+                JSONObject owner = (JSONObject) shortCodeMedia.get("owner");
+                if(owner.containsKey("username")) {
+                String username = (String) owner.get("username");
+                instaframPost.setBlogName(username);
+                }
+            }
 
                 JSONObject edgeMediaToCaption = (JSONObject) shortCodeMedia.get("edge_media_to_caption");
                 //System.out.println("edgeMediaToCaption: " + edgeMediaToCaption.toString());
