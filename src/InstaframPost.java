@@ -1,6 +1,4 @@
-
 import org.json.simple.JSONObject;
-
 import java.util.ArrayList;
 
 public class InstaframPost {
@@ -56,7 +54,7 @@ public class InstaframPost {
         this.tags = tags;
     }
 
-    public ArrayList postContent() {
+    public ArrayList getPostContent() {
         return this.postContent;
     }
 
@@ -86,8 +84,6 @@ public class InstaframPost {
         }
     }
 
-
-
     //TODO не добавил еще поле blogMane для вывода в джосне !!!!!!!!!!!!!!!!!!!!
     public JSONObject ruturnJsonString(){
 
@@ -116,7 +112,7 @@ public class InstaframPost {
     public String returnFilenamesInOneString(){
         String filenamesInOneString = "";
 
-        if (this.postContent().size() > 0 && this.postContent() != null) {
+        if (this.getPostContent().size() > 0 && this.getPostContent() != null) {
 
             for (String item : this.postContent) {
                 filenamesInOneString = filenamesInOneString + item.substring(item.lastIndexOf("/") + 1, item.lastIndexOf("?")) + " ";
@@ -128,5 +124,7 @@ public class InstaframPost {
 
         return filenamesInOneString;
     }
+
+
 
 }
