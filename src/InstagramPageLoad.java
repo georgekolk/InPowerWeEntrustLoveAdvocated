@@ -38,7 +38,7 @@ public class InstagramPageLoad {
         options.addArguments("--disable-default-apps");
         options.addArguments("test-type=browser");*/
 
-        System.setProperty("webdriver.chrome.driver", "D://chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         this.driver = new ChromeDriver(options);
     }
 
@@ -74,7 +74,7 @@ public class InstagramPageLoad {
         return instagramPostArray;
     }
 
-    public void destroyWebDriwer(){
+    public void destroyWebDriver(){
         this.driver.close();
         this.driver.quit();
     }
@@ -130,5 +130,41 @@ public class InstagramPageLoad {
         return instagramPostArray;
     }
 
+    public ArrayList<InstaframPost> getInstagram666PostsArray(String instagramBlogName){
+        driver.get("https://www.instagram.com/" + instagramBlogName + "/");
 
+        Actions builder = new Actions(driver);
+        builder.sendKeys(Keys.PAGE_DOWN).perform();
+
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+
+        int counter = 0;
+        do{
+
+            counter++;
+
+            List<WebElement> el = driver.findElements(By.tagName("a"));
+
+            for (WebElement e : el) {
+                if (e.getAttribute("href").contains("/p/")) {
+                    instagramPostArray.add(new InstaframPost(instagramBlogName, dateFormat.format(date), ExtractPostID.ExtractPostID(e.getAttribute("href")), ""));
+                    //sumPostIds = sumPostIds + ExtractPostID.ExtractPostID(e.getAttribute("href"));
+                }
+            }
+
+            builder.sendKeys(Keys.PAGE_DOWN).perform();
+            builder.sendKeys(Keys.PAGE_DOWN).perform();
+
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            el.clear();
+        }while(counter < 666);
+
+        return instagramPostArray;
+    }
 }

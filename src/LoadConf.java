@@ -2,7 +2,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -32,7 +31,18 @@ public class LoadConf {
                 JSONObject overallConfig = (JSONObject) obj;
 
 
-                if(overallConfig.containsKey("instagramBlogList")){
+                if(overallConfig.containsKey("instagramBlog666List")){
+                    JSONArray instagramBlogList = (JSONArray)overallConfig.get("instagramBlogList");
+
+                    for (int i = 0; i < instagramBlogList.size(); i++) {
+                        JSONObject instagramBlogName = (JSONObject) instagramBlogList.get(i);
+                        //System.out.println(instagramBlogName.get("name"));
+                        instagramBlogListArray.add((String) instagramBlogName.get("name"));
+                    }
+                }
+
+
+                    if(overallConfig.containsKey("instagramBlogList")){
                     JSONArray instagramBlogList = (JSONArray)overallConfig.get("instagramBlogList");
 
                     for (int i = 0; i < instagramBlogList.size(); i++) {
@@ -72,7 +82,6 @@ public class LoadConf {
             e.printStackTrace();
         }
 
-        //return destinationBoxes;
     }
 
     public ArrayList<String> returnBlogList(){
