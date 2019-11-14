@@ -15,10 +15,23 @@ public class Main {
 
         InstagramPageLoad instagramPageLoader = InstagramPageLoad.getInstance();
 
+        if (args.length > 0) {
+
+
+            singleInstagramPagePosts = instagramPageLoader.getInstagramAllPostsArray(args[0].toString());
+            System.out.println(args[0] + " " + singleInstagramPagePosts.size());
+
+                    
+                }else{
+
         for (String omgBlogFromBlogLIst:instagramBlogList) {
             singleInstagramPagePosts = instagramPageLoader.getInstagramPostArray(omgBlogFromBlogLIst);
             System.out.println(omgBlogFromBlogLIst + " " + singleInstagramPagePosts.size());
         }
+
+                
+                }
+
 
         instagramPageLoader.destroyWebDriver();
 
