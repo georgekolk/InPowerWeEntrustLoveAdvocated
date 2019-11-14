@@ -1,18 +1,25 @@
 import com.google.gson.JsonParseException;
+import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InstagramGraphQLProcessing {
     private static String charset = "UTF-8";
+    //private Date date = new Date();
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     static public String parseAndUpdate(InstaframPost instaframPost, String content){
 
@@ -90,20 +97,43 @@ public class InstagramGraphQLProcessing {
                     break;
             }
 
-            if(shortCodeMedia.containsKey("owner")) {
-                JSONObject owner = (JSONObject) shortCodeMedia.get("owner");
-                if(owner.containsKey("username")) {
-                String username = (String) owner.get("username");
-                instaframPost.setBlogName(username);
-                }
+            if(shortCodeMedia.containsKey("taken_at_timestamp")) {
+                //taken_at_timestamp
+                Long takenAtTimestamp = (Long) shortCodeMedia.get("taken_at_timestamp");
+                Date date = new Date(takenAtTimestamp*1000L);
+                instaframPost.setDate(dateFormat.format(date));
+                //System.out.println("takenAtTimestamp: " + takenAtTimestamp + " " + dateFormat.format(date));
             }
 
-                JSONObject edgeMediaToCaption = (JSONObject) shortCodeMedia.get("edge_media_to_caption");
+//            if(shortCodeMedia.containsKey("edge_media_preview_like")) {
+//                //edge_media_preview_like
+//                JSONObject edgeMediaPreviewLike = (JSONObject) shortCodeMedia.get("edge_media_preview_like");
+//                if(edgeMediaPreviewLike.containsKey("count")) {
+//                    //System.out.println("Likes:" + (long)edgeMediaPreviewLike.get("count"));
+//                    instaframPost.setLikes((long)edgeMediaPreviewLike.get("count"));
+//                }
+//            }
+
+//меняет имя оригинального аккаунта в случае просмотра тегов, создает не теги, а имена блогов. 
+//
+//            if(shortCodeMedia.containsKey("owner")) {
+//                JSONObject owner = (JSONObject) shortCodeMedia.get("owner");
+//                if(owner.containsKey("username")) {
+//                String username = (String) owner.get("username");
+//                instaframPost.setBlogName(username);
+//                }
+//            }
+
+
+            JSONObject edgeMediaToCaption = (JSONObject) shortCodeMedia.get("edge_media_to_caption");
                 //System.out.println("edgeMediaToCaption: " + edgeMediaToCaption.toString());
 
                 JSONArray edgesArrayFromEdgeMediaToCaption = (JSONArray) edgeMediaToCaption.get("edges");
 
-                if (edgesArrayFromEdgeMediaToCaption.size() > 0) {
+            //taken_at_timestamp
+
+
+            if (edgesArrayFromEdgeMediaToCaption.size() > 0) {
                     JSONObject firstElementFromEdgeMediaToCaption = (JSONObject) edgesArrayFromEdgeMediaToCaption.get(0);
                     JSONObject nodeFromEdgeMediaToCaption = (JSONObject) firstElementFromEdgeMediaToCaption.get("node"); //nodeFromEdgeMediaToCaption
 
@@ -120,17 +150,23 @@ public class InstagramGraphQLProcessing {
                     instaframPost.setTags(returnTagsString);
                     instaframPost.fillEmptinesInside();
                 }else {
-                    System.out.println("edgesArrayFromEdgeMediaToCaption.size(): " + edgeMediaToCaption.size());
+                    //System.out.println("edgesArrayFromEdgeMediaToCaption.size(): " + edgeMediaToCaption.size());
                 }
 
             } catch (ParseException e) {
             e.printStackTrace();
+            try {
+                FileUtils.writeStringToFile(new File("Error-" + instaframPost.getBlogName() + "-" + instaframPost.getPostId() + ".log"), content);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
 
         return null;
     }
 
     static public String getPage(String instagramPostId)throws Exception {
+            //URL getPhotos;
             URL getPhotos = new URL("https://www.instagram.com/p/" + instagramPostId + "/?__a=1");
 
             HttpURLConnection connection = (HttpURLConnection) getPhotos.openConnection();
@@ -144,10 +180,15 @@ public class InstagramGraphQLProcessing {
 
             String line;
 
-            while ((line = bufferedReader.readLine()) != null){
+            while ((line = bufferedReader.readLine()) != null)
+            {
                 content.append(line + "\n");
             }
             bufferedReader.close();
+            //connection.disconnect();
+
+            //System.out.println(content.toString());
+
             return content.toString();
     }
 }

@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class LoadConf {
 
-    private String tempDir = "C://Temp";
+    private String tempDir = "";
     private ArrayList<String> instagramBlogListArray = new ArrayList<String>();
     private ArrayList<String> instagramTagsListArray = new ArrayList<String>();
     private String saveDir = "";

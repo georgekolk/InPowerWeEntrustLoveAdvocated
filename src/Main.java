@@ -10,13 +10,8 @@ public class Main {
 
 
         LoadConf config = new LoadConf(new File("config.json"));
-        //System.out.println(config.returnSaveDir());
-
-
-
         DbHandler dbHandler = DbHandler.getInstance(config.returnDBConnectionString());
         instagramBlogList = config.returnBlogList();
-        //dbHandler.selectAll();
 
         InstagramPageLoad instagramPageLoader = InstagramPageLoad.getInstance();
 
@@ -38,11 +33,7 @@ public class Main {
 
                 if (item.getPostContent().size() > 0 && item.getPostContent() != null && succees) {
                     for (Object postContentUrl : item.getPostContent()) {
-                        //HttpDownloadUtility.downloadFile(postContentUrl.toString(), "D:\\4cs\\" + item.getBlogName());
                         HttpDownloadUtility.downloadFile(postContentUrl.toString(), config.returnSaveDir() + item.getBlogName());
-                        //System.out.println("dbHandler.updatePosts(item): " + item.toString() + " " + succees);
-
-
                     }
                 }else{
                     //System.out.println("CANT DOWNLOAD postContent empty");
@@ -52,8 +43,5 @@ public class Main {
                 e.printStackTrace();
             }
         }
-
-        //https://www.instagram.com/p/BvwY3HOBNg9/?__a=1
-
     }
 }

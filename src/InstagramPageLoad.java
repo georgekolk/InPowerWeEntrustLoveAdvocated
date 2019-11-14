@@ -13,7 +13,6 @@ public class InstagramPageLoad {
     private ArrayList<InstaframPost> instagramPostArray = new ArrayList<>();
     private static InstagramPageLoad instance = null;
     private WebDriver driver = null;
-    //private static InstagramPageLoad instance;
 
     public static InstagramPageLoad getInstance() { // #3
         if (instance == null) {        //если объект еще не создан
