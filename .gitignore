@@ -1,5 +1,8 @@
 mvn-package.bat
 /target/
 config.json
-/src/main/ 
+/src/main/
+.idea/
+*.iml
+ 
 

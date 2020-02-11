@@ -12,26 +12,17 @@ public class Main {
         LoadConf config = new LoadConf(new File("config.json"));
         DbHandler dbHandler = DbHandler.getInstance(config.returnDBConnectionString());
         instagramBlogList = config.returnBlogList();
-
         InstagramPageLoad instagramPageLoader = InstagramPageLoad.getInstance();
 
         if (args.length > 0) {
-
-
             singleInstagramPagePosts = instagramPageLoader.getInstagramAllPostsArray(args[0].toString());
             System.out.println(args[0] + " " + singleInstagramPagePosts.size());
-
-                    
-                }else{
-
-        for (String omgBlogFromBlogLIst:instagramBlogList) {
-            singleInstagramPagePosts = instagramPageLoader.getInstagramPostArray(omgBlogFromBlogLIst);
-            System.out.println(omgBlogFromBlogLIst + " " + singleInstagramPagePosts.size());
+        }else{
+             for (String omgBlogFromBlogLIst:instagramBlogList) {
+                 singleInstagramPagePosts = instagramPageLoader.getInstagramPostArray(omgBlogFromBlogLIst);
+                 System.out.println(omgBlogFromBlogLIst + " " + singleInstagramPagePosts.size());
+             }
         }
-
-                
-                }
-
 
         instagramPageLoader.destroyWebDriver();
 
