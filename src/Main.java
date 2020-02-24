@@ -17,26 +17,24 @@ public class Main {
 
         if (args.length > 0) {
 
-
             singleInstagramPagePosts = instagramPageLoader.getInstagramAllPostsArray(args[0].toString());
             System.out.println(args[0] + " " + singleInstagramPagePosts.size());
 
-                    
-                }else{
+        }else{
 
-        for (String omgBlogFromBlogLIst:instagramBlogList) {
-            singleInstagramPagePosts = instagramPageLoader.getInstagramPostArray(omgBlogFromBlogLIst);
-            System.out.println(omgBlogFromBlogLIst + " " + singleInstagramPagePosts.size());
-        }
+            for (String omgBlogFromBlogLIst:instagramBlogList) {
+                singleInstagramPagePosts = instagramPageLoader.getInstagramPostArray(omgBlogFromBlogLIst);
+                System.out.println(omgBlogFromBlogLIst + " " + singleInstagramPagePosts.size());
+            }
 
                 
-                }
-
+        }
 
         instagramPageLoader.destroyWebDriver();
 
         for (InstaframPost item:singleInstagramPagePosts) {
             try {
+
                 String content = InstagramGraphQLProcessing.getPage(item.getPostId());
                 InstagramGraphQLProcessing.parseAndUpdate(item, content);
 
@@ -44,12 +42,18 @@ public class Main {
 
                 boolean succees =  dbHandler.updatePosts(item);
 
+                System.out.println(item);
+
+
                 if (item.getPostContent().size() > 0 && item.getPostContent() != null && succees) {
+
                     for (Object postContentUrl : item.getPostContent()) {
                         HttpDownloadUtility.downloadFile(postContentUrl.toString(), config.returnSaveDir() + item.getBlogName());
                     }
+
+
                 }else{
-                    //System.out.println("CANT DOWNLOAD postContent empty");
+                    System.out.println("CANT DOWNLOAD postContent empty");
                 }
 
             }catch (Exception e){

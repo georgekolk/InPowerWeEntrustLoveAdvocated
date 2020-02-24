@@ -10,7 +10,6 @@ public class DbHandler {
     private static DbHandler instance = null;
 
     public static synchronized DbHandler getInstance(String connectionString) throws SQLException {
-        //CON_STR = connectionString;
         if (instance == null)
             instance = new DbHandler(connectionString);
         return instance;
@@ -26,10 +25,13 @@ public class DbHandler {
 
     public void createTable(String tableName){
         String sql = "CREATE TABLE IF NOT EXISTS " + this.prepareYourAnus(tableName) + " (\n" //private String blogName
-                + "	postId text NOT NULL UNIQUE,\n"
+                + "	fileId integer PRIMARY KEY,\n"
+                + "	postId text NOT NULL,\n"
                 + "	tags text NOT NULL,\n"
-                + "	filenames text NOT NULL,\n"
-                + " date TIMESTAMP NOT NULL);";
+                + "	state text NOT NULL,\n"
+                + "	fileName text NOT NULL,\n"
+                + " filePostDate TIMESTAMP NOT NULL,\n"
+                + " UNIQUE(fileName));";
 
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
@@ -40,15 +42,21 @@ public class DbHandler {
 
     public boolean updatePosts(InstaframPost instaframPost){
         boolean successful = true;
-        String sql = "INSERT INTO '" + this.prepareYourAnus(instaframPost.getBlogName()) + "' ('postId', 'tags', 'filenames', 'date') VALUES('" + instaframPost.getPostId() + "', '" + this.prepareYourAnus(instaframPost.getTags()) + "', '" + instaframPost.returnFilenamesInOneString() + "', CURRENT_TIMESTAMP);";
-        //System.out.println("sql string: " + sql.toString());
 
-        try (Statement stmt = this.connection.createStatement()) {
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            System.out.println("DbHandler insert Error: " + instaframPost.toString() + e.getMessage());
-            if (e.getMessage().contains("SQLITE_CONSTRAINT_UNIQUE")){
-                successful = false;
+        String[] list = instaframPost.returnFilenamesInOneString().split(" ");
+
+        for (String instaframPostFile: list) {
+
+            String sql = "INSERT INTO '" + this.prepareYourAnus(instaframPost.getBlogName()) + "' ('postId', 'tags', 'state', 'fileName', 'filePostDate') VALUES('" + instaframPost.getPostId() + "', '" + this.prepareYourAnus(instaframPost.getTags()) + "', 'NOTHING', '" + instaframPostFile + "', CURRENT_TIMESTAMP);";
+            //System.out.println("sql string: " + sql.toString());
+
+            try (Statement stmt = this.connection.createStatement()) {
+                stmt.execute(sql);
+            } catch (SQLException e) {
+                System.out.println("DbHandler insert Error: " + instaframPost.toString() + e.getMessage());
+                if (e.getMessage().contains("SQLITE_CONSTRAINT_UNIQUE")){
+                    successful = false;
+                }
             }
         }
 
@@ -76,8 +84,8 @@ public class DbHandler {
     }
 
     public void selectAll(){
-        //String sql = "SELECT postId, tags, filenames, date FROM latex WHERE tags LIKE '%latex%';";
-        String sql = "SELECT postId, tags, filenames, date FROM latex WHERE date('now');";
+        //String sql = "SELECT postId, tags, fileName, date FROM latex WHERE tags LIKE '%latex%';";
+        String sql = "SELECT postId, tags, fileName, filePostDate FROM latex WHERE filePostDate('now');";
 
 
         List<InstaframPost> tehInstaframPost = new ArrayList<InstaframPost>();
@@ -94,15 +102,15 @@ public class DbHandler {
 
                 System.out.println(rs.getString("postId") +  "\t" +
                         rs.getString("tags") + "\t" +
-                        rs.getString("filenames"));
+                        rs.getString("fileName"));
 
                 /*
-    public InstaframPost(String blogName, String date, String postId, String tags){
+    public InstaframPost(String blogName, String filePostDate, String postId, String tags){
 
                 /
                  */
 
-                tehInstaframPost.add(new InstaframPost("latex",rs.getString("date"),rs.getString("postId"),rs.getString("tags")));
+                tehInstaframPost.add(new InstaframPost("latex",rs.getString("filePostDate"),rs.getString("postId"),rs.getString("tags")));
 
             }
         } catch (SQLException e) {
